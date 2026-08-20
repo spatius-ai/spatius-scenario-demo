@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "live-room-bg.jpg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

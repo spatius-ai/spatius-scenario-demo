@@ -1,0 +1,13 @@
+flask>=3.0
+flask-cors>=4.0
+python-dotenv>=1.0
+
+# LiveKit path
+livekit-agents>=1.0
+livekit-plugins-spatius>=0.1
+livekit-api>=0.8
+
+# Agora path. Only used to call ConvoAI's REST API — AccessToken2 signing is official
+# source vendored under agora_token/ (there is no package for it on PyPI) and depends on
+# nothing beyond the standard library.
+requests>=2.31

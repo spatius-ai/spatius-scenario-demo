@@ -1,0 +1,45 @@
+/*
+ * Taken from the VIS tokens Spatius Studio actually uses
+ * (spatius-studio-web/src/style.css).
+ *
+ * Not the #7F32D3 from the table in design-system/MASTER.md: in the product that value is
+ * used only as a tiny accent, and taking it as the primary colour fills the screen with
+ * dark purple, nothing like the real thing. The sidebar's selected state uses --accent
+ * #9a9ac0 (see studio's layouts/default.vue), which this follows.
+ *
+ * The existing variable names are kept and only the values change, so the edit stays in
+ * one place and no component has to follow along.
+ */
+:root {
+  /* Selection and primary buttons. A desaturated purple-grey, not the brand's dark
+     purple. */
+  --primary: #9a9ac0;
+
+  --surface: #ffffff;
+  /* Card and input backgrounds: warm white, not cool grey. */
+  --surface-variant: #f7f5f1;
+
+  --on-surface-variant: #2d3648;
+  --outline-variant: #d9d4c8;
+
+  /* Semantic colours are not part of these tokens, so the original values stay. */
+  --correct: #2e9e5b;
+  --wrong: #d64545;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'PingFang SC', sans-serif;
+  color: #2b2623;
+  background: #f7f5f1;
+}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Allows cleartext HTTP.
+
+  The backend runs on the user's own machine (tutoring-backend/) and the phone reaches it
+  over a LAN address the user types into the config page — there is no way to know the
+  subnet in advance, so a short list of domains will not do.
+
+  Android 9 and later block cleartext by default, and a blocked request surfaces as
+  something like "network unreachable" rather than a policy rejection, which is painful to
+  diagnose. This is a demo for local development, so cleartext is allowed wholesale.
+
+  Switch to https before any real deployment, and delete this section.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>

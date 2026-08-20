@@ -1,0 +1,24 @@
+# pnpm settings. These lived under a "pnpm" key in package.json until pnpm 11 stopped
+# reading that field, so they live here instead — pnpm 10 reads this file too.
+
+# esbuild compiles its native binary in a build script and Vite will not start without
+# it; core-js only prints a postinstall banner but still has to be approved. pnpm 11
+# defaults strictDepBuilds to true, so a dependency with an unreviewed build script fails
+# the install outright rather than warning about it.
+#
+# Both spellings are here on purpose: pnpm 11 reads allowBuilds and ignores the older
+# key, pnpm 10 reads onlyBuiltDependencies and ignores the newer one. With only one of
+# them, whichever version does not recognise it reports the builds as ignored.
+allowBuilds:
+  esbuild: true
+  core-js: true
+
+onlyBuiltDependencies:
+  - esbuild
+  - core-js
+
+# @spatius/avatarkit resolves an older @opentelemetry/core that carries an advisory
+# (GHSA-8988-4f7v-96qf, unbounded allocation while parsing W3C baggage headers). Drop
+# this once the SDK reaches 2.8.0 or later on its own.
+overrides:
+  '@opentelemetry/core': '>=2.8.0'

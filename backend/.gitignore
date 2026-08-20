@@ -1,0 +1,6 @@
+.env
+.venv/
+__pycache__/
+
+# What the companion remembers: real conversations, and personal to whoever ran it.
+memory/
