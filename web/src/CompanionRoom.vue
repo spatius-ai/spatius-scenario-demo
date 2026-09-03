@@ -134,7 +134,14 @@ async function enter(): Promise<void> {
     remembered.value = await Backend.fetchMemory(sessionMemoryKey.value)
 
     await session.value.start(stageRef.value)
-    await session.value.waitForAgent()
+    const agentReady = await session.value.waitForAgent()
+    // Only the LiveKit path treats this as fatal: its worker runs on the user's own
+    // machine, so a no-show is a local setup problem worth stopping for. The Agora
+    // agent runs in the cloud and is deliberately non-fatal — see waitForAgent.
+    if (!agentReady && session.value.transportUsed === 'livekit')
+      throw new Error(t.value.agentMissing)
+    if (!agentReady)
+      console.warn('[rtc] agent never joined; the avatar will render but will not speak')
     connected.value = true
 
     await session.value.startFreeTalk('companion', chosen.value?.prompt ?? '', sessionMemoryKey.value)
@@ -605,6 +612,11 @@ onBeforeUnmount(() => {
   background: rgb(20 14 10 / 78%);
   color: #fff;
   font-size: 14px;
+  /* The agent-missing message is several lines of troubleshooting, not one sentence. */
+  white-space: pre-line;
+  text-align: center;
+  padding: 0 24px;
+  line-height: 1.7;
 }
 
 .spinner {

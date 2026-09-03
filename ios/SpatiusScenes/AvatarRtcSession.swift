@@ -235,6 +235,10 @@ final class AvatarRtcSession: ObservableObject {
             }
             try? await Task.sleep(nanoseconds: 300_000_000)
         }
+        // Deliberately not an error: the session carries on without the agent (see above).
+        // Logged because a silent return leaves "it never says anything" with nothing to
+        // go on — this is the one place that knows the agent never turned up.
+        print("[AvatarRtcSession] agent join timed out uid=\(agentUid); the avatar will render but will not speak")
     }
 
     /// Interrupt whatever is being spoken, with nothing new to follow.

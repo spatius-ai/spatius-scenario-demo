@@ -354,7 +354,14 @@ onMounted(async () => {
     // Wait for the agent before letting the audience in: a reply sent before it is ready
     // gets a 200 from the backend and is then dropped, so the first few messages would
     // go silently unanswered.
-    await session.value.waitForAgent()
+    const agentReady = await session.value.waitForAgent()
+    // Only the LiveKit path treats this as fatal: its worker runs on the user's own
+    // machine, so a no-show is a local setup problem worth stopping for. The Agora
+    // agent runs in the cloud and is deliberately non-fatal — see waitForAgent.
+    if (!agentReady && session.value.transportUsed === 'livekit')
+      throw new Error(t.value.agentMissing)
+    if (!agentReady)
+      console.warn('[rtc] agent never joined; the avatar will render but will not speak')
     connected.value = true
     // Only once the room is actually up. Started earlier the music plays over a loading
     // screen, which reads as a page making noise rather than a room being open.
@@ -921,6 +928,11 @@ onBeforeUnmount(() => {
   gap: 14px;
   background: var(--surface-variant);
   color: var(--on-surface-variant);
+  /* The agent-missing message is several lines of troubleshooting, not one sentence. */
+  white-space: pre-line;
+  text-align: center;
+  padding: 0 24px;
+  line-height: 1.7;
 }
 
 .spinner {

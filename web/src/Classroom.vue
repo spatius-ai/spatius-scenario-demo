@@ -107,7 +107,14 @@ onMounted(async () => {
     await session.value.start(stageRef.value)
     // Set connected only once the agent is ready: reading the question is triggered by
     // connected, and sending it early gets it dropped.
-    await session.value.waitForAgent()
+    const agentReady = await session.value.waitForAgent()
+    // Only the LiveKit path treats this as fatal: its worker runs on the user's own
+    // machine, so a no-show is a local setup problem worth stopping for. The Agora
+    // agent runs in the cloud and is deliberately non-fatal — see waitForAgent.
+    if (!agentReady && session.value.transportUsed === 'livekit')
+      throw new Error(t.value.agentMissing)
+    if (!agentReady)
+      console.warn('[rtc] agent never joined; the avatar will render but will not speak')
     connected.value = true
   } catch (err) {
     overlayError.value = (err as Error).message
@@ -676,6 +683,10 @@ function optionState(index: number): 'idle' | 'correct' | 'wrong' {
   font-size: 15px;
   font-weight: 600;
   text-align: center;
+  /* The agent-missing message is several lines of troubleshooting, not one sentence. */
+  white-space: pre-line;
+  padding: 0 24px;
+  line-height: 1.7;
 }
 
 /* The full-page overlay has a light background, where a white spinner is invisible, so

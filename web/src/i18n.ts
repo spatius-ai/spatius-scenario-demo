@@ -159,6 +159,9 @@ interface Strings {
   /** Classroom */
   teacherComing: string
   connectFailed: (reason: string) => string
+  /** LiveKit only: the room connected but the agent worker never joined it. The Agora
+   *  path deliberately carries on without its agent, so it never shows this. */
+  agentMissing: string
   back: string
   section: (n: number) => string
   prevQuestion: string
@@ -319,6 +322,13 @@ const zh: Strings = {
 
   teacherComing: '老师正在赶来…',
   connectFailed: (reason) => `连接失败：${reason}`,
+  agentMissing:
+    '已连接房间，但对话服务(agent worker)没有加入。\n\n' +
+    '角色画面由本地渲染，与此无关；这里只影响说话。\n\n' +
+    'worker 跑在本机，请检查后端终端：\n' +
+    '1. server.py 是否启动成功 —— 端口 8787 被占用时它会直接退出\n' +
+    '2. worker 有没有报错或 traceback(崩溃后不会自动重启)\n' +
+    '3. ps aux | grep agent.py 确认 worker 进程还在',
   back: '返回',
   section: (n) => `第 ${n} 节`,
   prevQuestion: '上一题',
@@ -493,6 +503,13 @@ const en: Strings = {
 
   teacherComing: 'Your teacher is on the way…',
   connectFailed: (reason) => `Couldn’t connect: ${reason}`,
+  agentMissing:
+    'Connected to the room, but the agent worker never joined.\n\n' +
+    'The avatar itself renders locally and is unaffected; this only stops it talking.\n\n' +
+    'The worker runs on your machine. Check the backend terminal:\n' +
+    '1. Did server.py start? It exits immediately if port 8787 is taken\n' +
+    '2. Any error or traceback from the worker (a crashed one is not restarted)\n' +
+    '3. Run ps aux | grep agent.py to confirm the worker is still running',
   back: 'Back',
   section: (n) => `Section ${n}`,
   prevQuestion: 'Previous',

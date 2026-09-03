@@ -101,6 +101,12 @@ export class TutoringSession {
     return this.player?.isConnected ?? false
   }
 
+  /** Which transport this session ended up on. The two fail in different places, so a
+   *  failure message that says where to look has to know which one is in play. */
+  get transportUsed(): Backend.Transport {
+    return this.transport
+  }
+
   /**
    * Turn the SDK's frame rate monitor on or off.
    *
