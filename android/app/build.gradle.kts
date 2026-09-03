@@ -48,10 +48,10 @@ kotlin {
 
 
 dependencies {
-    implementation("ai.spatius:avatarkit:1.3.3")
+    implementation("ai.spatius:avatarkit:1.3.4")
     // RTC driving. avatarkit-rtc declares both the main SDK and Agora as compileOnly,
     // so the host has to bring them in explicitly.
-    implementation("ai.spatius:avatarkit-rtc:1.0.0")
+    implementation("ai.spatius:avatarkit-rtc:1.0.1")
     implementation("io.agora.rtc:full-sdk:4.6.2")
 
     implementation(libs.androidx.core.ktx)
