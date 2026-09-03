@@ -124,7 +124,6 @@ interface Strings {
   fieldAvatar: string
   fieldTtsModel: string
   preview: string
-  voiceCantonese: string
   voiceMale: string
   voiceFemale: string
   start: string
@@ -288,7 +287,6 @@ const zh: Strings = {
   fieldAvatar: '形象',
   fieldTtsModel: '语音合成模型',
   preview: '试听',
-  voiceCantonese: '粤语',
   voiceMale: '男声',
   voiceFemale: '女声',
   start: '开始',
@@ -470,7 +468,6 @@ const en: Strings = {
   fieldAvatar: 'Character',
   fieldTtsModel: 'Speech model',
   preview: 'Preview',
-  voiceCantonese: 'Cantonese',
   voiceMale: 'Male',
   voiceFemale: 'Female',
   start: 'Start',

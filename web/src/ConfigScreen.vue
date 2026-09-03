@@ -180,24 +180,6 @@ const TTS_OPTIONS = [
   // says nothing about it.
   { value: 'fishaudio/s2.1-pro', sample: asset('voice-fishaudio_s21_pro.wav'), sampleEn: asset('voice-fishaudio_s21_pro_en.wav'), voice: 'female', note: '' },
   { value: 'fishaudio/s2-pro', sample: asset('voice-fishaudio_s2_pro.wav'), sampleEn: asset('voice-fishaudio_s2_pro_en.wav'), voice: 'female', note: '' },
-  {
-    value: 'elevenlabs/eleven_multilingual_v2',
-    sample: asset('voice-elevenlabs_eleven_multilingual_v2.wav'), sampleEn: asset('voice-elevenlabs_eleven_multilingual_v2_en.wav'),
-    voice: 'female',
-    note: '',
-  },
-  {
-    value: 'elevenlabs/eleven_v3',
-    sample: asset('voice-elevenlabs_eleven_v3.wav'), sampleEn: asset('voice-elevenlabs_eleven_v3_en.wav'),
-    voice: 'female',
-    note: '',
-  },
-  {
-    value: 'elevenlabs/eleven_flash_v2_5',
-    sample: asset('voice-elevenlabs_eleven_flash_v2_5.wav'), sampleEn: asset('voice-elevenlabs_eleven_flash_v2_5_en.wav'),
-    voice: 'female',
-    note: 'cantonese',
-  },
   { value: 'cartesia/sonic-3', sample: asset('voice-cartesia_sonic_3.wav'), sampleEn: asset('voice-cartesia_sonic_3_en.wav'), voice: 'male', note: '' },
   { value: 'cartesia/sonic-2', sample: asset('voice-cartesia_sonic_2.wav'), sampleEn: asset('voice-cartesia_sonic_2_en.wav'), voice: 'male', note: '' },
   {
@@ -430,7 +412,6 @@ const AVATAR_OPTIONS = [
               <span class="name">
                 {{ o.value }}
                 <em class="sex">{{ o.voice === 'male' ? t.voiceMale : t.voiceFemale }}</em>
-                <em v-if="o.note === 'cantonese'">{{ t.voiceCantonese }}</em>
               </span>
               <!-- A button rather than part of the label: previewing should not also
                    select the voice. -->
@@ -867,7 +848,7 @@ label {
 }
 
 /* The reading is the first thing anyone scanning the list is looking for, so it gets a
-   chip of its own rather than sitting in the same grey as the Cantonese note. */
+   chip of its own rather than sitting in the same grey as the model name. */
 .voice em.sex {
   padding: 1px 7px;
   border-radius: 999px;
