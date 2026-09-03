@@ -251,6 +251,7 @@ def _create_livekit_session(avatar_id: str, lang: str = "zh"):
 
     url, key, secret = _livekit_env()
     room_name = f"tutoring-{uuid.uuid4().hex[:10]}"
+    _wait_for_agent_worker()
     _run(_livekit_start(room_name, lang))
 
     identity = f"student-{uuid.uuid4().hex[:8]}"
@@ -578,6 +579,7 @@ def write_config():
 
     merged = _read_env_file()
     merged.update({key: os.getenv(key, merged.get(key, "")) for key in EDITABLE_KEYS})
+    before = dict(merged)
     merged.update(updates)
 
     lines = ["# Written by the config page. You can also edit this file directly.", ""]
@@ -591,7 +593,18 @@ def write_config():
     # The agent worker is a separate process and read .env at its own startup, so the
     # values above never reach it. Restarting is what makes a save take effect without
     # the user having to restart the server themselves.
-    _restart_agent_worker()
+    #
+    # Only when something changed, or when there is no live worker to begin with. The
+    # config page saves on every pass — step one, then again on start — and a restart
+    # takes the worker off LiveKit for the three-odd seconds it needs to re-register.
+    # A session created inside that window is dispatched to whoever *is* registered
+    # under the agent name (another machine on the same project) or to nobody, and
+    # the classroom never hears its question. Not restarting on a no-op save keeps
+    # the worker registered across the save-then-start sequence.
+    with _worker_lock:
+        worker_alive = _worker is not None and _worker.poll() is None
+    if merged != before or not worker_alive:
+        _restart_agent_worker()
 
     return jsonify({"ok": True})
 
@@ -714,6 +727,7 @@ def _spawn_agent_worker() -> subprocess.Popen | None:
         )
         return None
 
+    _worker_ready.clear()
     worker = subprocess.Popen(
         [sys.executable, str(Path(__file__).parent / "agent.py"), "dev"],
         cwd=str(Path(__file__).parent),
@@ -722,8 +736,55 @@ def _spawn_agent_worker() -> subprocess.Popen | None:
         # shutdown while the server waits for it, and the terminal hangs until both are
         # killed by hand.
         start_new_session=True,
+        # Output goes through this process so registration can be observed (see
+        # _relay_worker_output). It is echoed line by line, so the terminal reads the
+        # same as before.
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
     )
+    threading.Thread(target=_relay_worker_output, args=(worker,), daemon=True).start()
     return worker
+
+
+# Set once the current worker has registered with LiveKit Cloud; cleared on every
+# spawn. A dispatch created before this is set goes to a worker on another machine
+# registered under the same agent name, or to nobody — either way not to this one.
+_worker_ready = threading.Event()
+_WORKER_READY_TIMEOUT = 20.0
+
+
+def _relay_worker_output(worker: subprocess.Popen) -> None:
+    """Echo the worker's output and flag the moment it registers.
+
+    The worker's own log line is the only signal there is: LiveKit has no API to ask
+    which workers are registered, and the dispatch call succeeds whether or not
+    anyone is there to take it.
+    """
+    assert worker.stdout is not None
+    for line in worker.stdout:
+        sys.stdout.write(line)
+        sys.stdout.flush()
+        if "registered worker" in line:
+            _worker_ready.set()
+
+
+def _wait_for_agent_worker() -> None:
+    """Block until the worker is registered, so the dispatch that follows reaches it.
+
+    Only when this server is the one running the worker. Waiting has a ceiling: a
+    worker that never registers (bad credentials, crash) already leaves a stack trace
+    in the terminal, and holding the request forever would hide it behind a spinner.
+    """
+    with _worker_lock:
+        worker = _worker
+    if worker is None or worker.poll() is not None:
+        return
+    if not _worker_ready.wait(timeout=_WORKER_READY_TIMEOUT):
+        app.logger.warning(
+            "agent worker has not registered after %.0fs; dispatching anyway",
+            _WORKER_READY_TIMEOUT,
+        )
 
 
 _worker: subprocess.Popen | None = None
