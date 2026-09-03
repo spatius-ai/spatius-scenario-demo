@@ -12,11 +12,11 @@ importers:
   .:
     dependencies:
       '@spatius/avatarkit':
-        specifier: 1.3.7
-        version: 1.3.7(@webgpu/types@0.1.71)(vite@6.4.3)
+        specifier: 1.3.8
+        version: 1.3.8(@webgpu/types@0.1.71)(vite@6.4.3)
       '@spatius/avatarkit-rtc':
-        specifier: 1.1.3
-        version: 1.1.3(@spatius/avatarkit@1.3.7(@webgpu/types@0.1.71)(vite@6.4.3))(agora-rtc-sdk-ng@4.24.7)(livekit-client@2.21.0(@types/dom-mediacapture-record@1.0.22))
+        specifier: 1.1.5
+        version: 1.1.5(@spatius/avatarkit@1.3.8(@webgpu/types@0.1.71)(vite@6.4.3))(agora-rtc-sdk-ng@4.24.7)(livekit-client@2.21.0(@types/dom-mediacapture-record@1.0.22))
       agora-rtc-sdk-ng:
         specifier: ^4.24.7
         version: 4.24.7
@@ -338,14 +338,14 @@ packages:
     resolution: {integrity: sha512-eSYWTm620tTk45EKSedaUL8MFYI8hW164hIXsgIHyxu3VobUB3fFCu5t0hQby6OoWRPsG1KkKUG2M5UadiLiVg==}
     engines: {node: '>=14'}
 
-  '@posthog/browser-common@0.5.0':
-    resolution: {integrity: sha512-8DaxVZS1bQPbA514RePurLNbYjei3P4jhnC206DwVv5XThmZM3QdlsXenI2ujE3pLbgQ79hYn9o1Kda8I3WK/Q==}
+  '@posthog/browser-common@0.7.1':
+    resolution: {integrity: sha512-JO/5dIVx3NTrbg0W2VciDDmmizsvwaYYHE5cnJE1Gra+UqBnEuVGH9DTE/kBFgVMp+08z5uj/aAprsYD2WG/QQ==}
 
-  '@posthog/core@1.47.0':
-    resolution: {integrity: sha512-LW62V+9yx7G7mLd+EYpwW0PiaPZI8XRJ1tLuhw+9fXHpugLp8XQD5JuCQ2kIXvoUfyx1DpKfGQY3dUnzMOIn7Q==}
+  '@posthog/core@1.50.2':
+    resolution: {integrity: sha512-El7y/ipZ45OFBRTN/+ixat9Nw21bW+pKKnX0G+rG4rWxBtDA47Ub/ZUnHvZNhAufNInQr4AYCUeWQsuJsTcoKg==}
 
-  '@posthog/types@1.402.3':
-    resolution: {integrity: sha512-nnqKIGUqggeNbCZg6of/hYN+4shYZUoPFkILIIpYq0p9HDX8PgOrnrtBAUH8kr1MOmDh2nm+fY5Ceks7A5y6BQ==}
+  '@posthog/types@1.408.0':
+    resolution: {integrity: sha512-xMY8QrRKsTYu4A4Of7XF/xEt0HcnZOWwnICm3do7tGKA0lTlnnr4YW0AHQN1Uv2P3BDqf5GQoqh91MKE+dgdcA==}
 
   '@rollup/rollup-android-arm-eabi@4.62.4':
     resolution: {integrity: sha512-RrPokAb7dmbxFoeO3TloqHyOjgye8RkBhSqmp4aJMIex4c9r46ZstPnleDQOq1t46VOVjwIuwNogIqbodV1Vvg==}
@@ -472,10 +472,10 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@spatius/avatarkit-rtc@1.1.3':
-    resolution: {integrity: sha512-Leken0aHDEgM8sMAsHYFZyYdH99zCK8n+TqvKDtoJdeg1z0lUPU5dwNCdbK5V3b1GYAgDXCE9VzIW2ZJVoQHwg==}
+  '@spatius/avatarkit-rtc@1.1.5':
+    resolution: {integrity: sha512-oHP7V5Tro320iVkqt/UDhp2GszFUE5J3xdcLycSY6yboj9JEPg27LiAQT1cGVheRBtnZ/PWZbrVoDAPpQdqg9g==}
     peerDependencies:
-      '@spatius/avatarkit': '>=1.3.7'
+      '@spatius/avatarkit': '>=1.3.8'
       agora-rtc-sdk-ng: ^4.x
       livekit-client: ^2.15.9
     peerDependenciesMeta:
@@ -484,8 +484,8 @@ packages:
       livekit-client:
         optional: true
 
-  '@spatius/avatarkit@1.3.7':
-    resolution: {integrity: sha512-ivB0NG1VGFjcLvxhXtR+fQ9CqjzC3+FRuh5l9KxUxnfwcV/fjQTheGxqA6nH8TBFMO+P/4K0rPXkZk/Gp9KJSg==}
+  '@spatius/avatarkit@1.3.8':
+    resolution: {integrity: sha512-pXGIacpWlFPnp0gWnUHH1QrIEY/pjbpityGjCPM5uNOPCsfbuhimUodlIsv90Va+MAEHLm/5YZgiD0fgIQoPkA==}
     peerDependencies:
       '@webgpu/types': '*'
       next: '>=13.0.0'
@@ -813,8 +813,16 @@ packages:
     resolution: {integrity: sha512-u82N74LFzG8ca+dD8puPnplTXoGH4fTPpVGuIbt36G3qvNlkvfD0lEAZSxaly3KX8TS/L1A1gsCEmvKmBcVbkQ==}
     engines: {node: ^10 || ^12 || >=14}
 
-  posthog-js@1.415.5:
-    resolution: {integrity: sha512-IUmPFtZjwDZYnRmttl+Xo5f/zDVdMdfWdZFxHqtAqq4wMwElr4dIpXmEUzh4nO8NtWT3zBmrL9+c7zZ3avzJZw==}
+  posthog-js@1.425.1:
+    resolution: {integrity: sha512-GfdAUf402Prjt3ofkj4dh4k/m1SkYvgCeASyWj1xxcIVT7QnB9gGsslDwAZBZ6Wrtwxkq91gFbpSo/v633Q+1w==}
+    peerDependencies:
+      '@types/react': '>=16.8.0'
+      react: '>=16.8.0'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      react:
+        optional: true
 
   preact@10.29.8:
     resolution: {integrity: sha512-ej2aVZ+vZ8WO7tvlQWRM9N63A0KzF9q4mWJfDUHgYaIofWY9hu74QdnQrjoPMmZi2/nZ5gN0bJCQF49xQqx09Q==}
@@ -933,11 +941,8 @@ packages:
     resolution: {integrity: sha512-d2JWLCivmZYTSIoge9MsgFCZrt571BikcWGYkjC1khllbTeDlGqZ2D8vD8E/lJa8WGWbb7Plm8/XJYV7IJHZZw==}
     engines: {node: '>= 8'}
 
-  web-vitals@5.3.0:
-    resolution: {integrity: sha512-q6LWsLatGYZp5VGBIOvbTj6JBV2nOmC8KvWztXBmwJcfFAzhwKwbOxhUH306XY3CcaZDUlSmSuNPBsCn0bFu+g==}
-
-  web-vitals@6.0.0:
-    resolution: {integrity: sha512-Guaibvy/+uNtL6Bsu4jmMJGzuSl91oeRH5iO9pPRbYftnFUr3yqT1TUNX/OE4o9HexuEMU3Kb/Wg7iKhlffZUA==}
+  web-vitals@6.2.1:
+    resolution: {integrity: sha512-rLcLXA2sx6+9dE88NHFubwTtGxpK4yYBLj6qHPdFoCaLr0cXGb4efOqtKLlm4loGA4OEKHIQKMKzZkKyOh5ctw==}
 
   webrtc-adapter@8.2.0:
     resolution: {integrity: sha512-umxCMgedPAVq4Pe/jl3xmelLXLn4XZWFEMR5Iipb5wJ+k1xMX0yC4ZY9CueZUU1MjapFxai1tFGE7R/kotH6Ww==}
@@ -1197,16 +1202,16 @@ snapshots:
 
   '@opentelemetry/semantic-conventions@1.43.0': {}
 
-  '@posthog/browser-common@0.5.0':
+  '@posthog/browser-common@0.7.1':
     dependencies:
-      '@posthog/core': 1.47.0
-      '@posthog/types': 1.402.3
+      '@posthog/core': 1.50.2
+      '@posthog/types': 1.408.0
 
-  '@posthog/core@1.47.0':
+  '@posthog/core@1.50.2':
     dependencies:
-      '@posthog/types': 1.402.3
+      '@posthog/types': 1.408.0
 
-  '@posthog/types@1.402.3': {}
+  '@posthog/types@1.408.0': {}
 
   '@rollup/rollup-android-arm-eabi@4.62.4':
     optional: true
@@ -1283,17 +1288,17 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.62.4':
     optional: true
 
-  '@spatius/avatarkit-rtc@1.1.3(@spatius/avatarkit@1.3.7(@webgpu/types@0.1.71)(vite@6.4.3))(agora-rtc-sdk-ng@4.24.7)(livekit-client@2.21.0(@types/dom-mediacapture-record@1.0.22))':
+  '@spatius/avatarkit-rtc@1.1.5(@spatius/avatarkit@1.3.8(@webgpu/types@0.1.71)(vite@6.4.3))(agora-rtc-sdk-ng@4.24.7)(livekit-client@2.21.0(@types/dom-mediacapture-record@1.0.22))':
     dependencies:
       '@bufbuild/protobuf': 2.13.0
       '@opentelemetry/api': 1.9.1
       '@opentelemetry/api-logs': 0.218.0
-      '@spatius/avatarkit': 1.3.7(@webgpu/types@0.1.71)(vite@6.4.3)
+      '@spatius/avatarkit': 1.3.8(@webgpu/types@0.1.71)(vite@6.4.3)
     optionalDependencies:
       agora-rtc-sdk-ng: 4.24.7
       livekit-client: 2.21.0(@types/dom-mediacapture-record@1.0.22)
 
-  '@spatius/avatarkit@1.3.7(@webgpu/types@0.1.71)(vite@6.4.3)':
+  '@spatius/avatarkit@1.3.8(@webgpu/types@0.1.71)(vite@6.4.3)':
     dependencies:
       '@bufbuild/protobuf': 2.13.0
       '@guiiai/logg': 1.2.11
@@ -1310,11 +1315,13 @@ snapshots:
       '@webgpu/types': 0.1.71
       nanoid: 5.1.16
       opusscript: 0.1.1
-      posthog-js: 1.415.5
+      posthog-js: 1.425.1
     optionalDependencies:
       vite: 6.4.3
     transitivePeerDependencies:
+      - '@types/react'
       - preact-render-to-string
+      - react
 
   '@types/dom-mediacapture-record@1.0.22': {}
 
@@ -1678,18 +1685,18 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  posthog-js@1.415.5:
+  posthog-js@1.425.1:
     dependencies:
-      '@posthog/browser-common': 0.5.0
-      '@posthog/core': 1.47.0
-      '@posthog/types': 1.402.3
+      '@posthog/browser-common': 0.7.1
+      '@posthog/core': 1.50.2
+      '@posthog/types': 1.408.0
       core-js: 3.50.0
       dompurify: 3.4.13
       fflate: 0.4.9
       preact: 10.29.8
       query-selector-shadow-dom: 1.0.1
-      web-vitals: 5.3.0
-      web-vitals-soft-navs: web-vitals@6.0.0
+      web-vitals: 6.2.1
+      web-vitals-soft-navs: web-vitals@6.2.1
     transitivePeerDependencies:
       - preact-render-to-string
 
@@ -1790,9 +1797,7 @@ snapshots:
 
   web-streams-polyfill@3.3.3: {}
 
-  web-vitals@5.3.0: {}
-
-  web-vitals@6.0.0: {}
+  web-vitals@6.2.1: {}
 
   webrtc-adapter@8.2.0:
     dependencies:
