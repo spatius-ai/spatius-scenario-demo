@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import os
 import secrets
+import sys
 from dataclasses import dataclass
 
 import requests
@@ -73,14 +74,15 @@ REST_AUTH_TOKEN_TTL_SECONDS = 5 * 60
 
 DEFAULT_CONVOAI_BASE_URL = "https://api.agora.io"
 
-# Speech recognition, as configured on the agent this demo was built against. Running it
-# against a different agent means replacing all four — see the README.
+# Speech recognition, sent with every session. These are what a newly created agent comes
+# with in the console, so a fresh agent in any account matches them as is; they only need
+# changing when the ASR vendor or model was changed in the console — see the README.
+#
+# No credential goes with them: the console's ASR panel shows a `resource_id` next to the
+# model, but the join API ignores it (a garbage id recognised Chinese and English just the
+# same, verified against a second account), and the credential comes from the agent itself.
 ASR_VENDOR = "deepgram"
 ASR_MODEL = "nova-3"
-# One credential id per language: a credential serves the language it was created for, and
-# pointing at the wrong one silently stops recognition working at all.
-ASR_RESOURCE_ZH = "9231f363-1ebd-4156-8fc9-b313abe2ae23"
-ASR_RESOURCE_EN = "0bddc644c90140428e058a876d7d70e7"
 
 # Personas, kept in sync with the LiveKit path (agent.py): the teacher should
 # sound the same on both paths, so changing one means changing the other.
@@ -309,9 +311,12 @@ def _auth_header() -> str:
 def _safe_upstream_message(payload: object, status: int) -> str:
     """Upstream errors can echo back configuration, secrets included, so they are
     never passed through verbatim."""
+    # `detail` first: `reason` is a bare code ("InternalError") while `detail` carries the
+    # actual cause ("properties: tts.addon not found"), and losing that turned a wrong
+    # pipeline id into an opaque 500 on the config page.
     detail = ""
     if isinstance(payload, dict):
-        for key in ("reason", "detail", "message"):
+        for key in ("detail", "reason", "message"):
             value = payload.get(key)
             if isinstance(value, str) and value:
                 detail = value
@@ -410,19 +415,14 @@ def start_agent(avatar_id: str = "", lang: str = "zh") -> AgoraSession:
     # Recognition language follows the UI, so switching to English makes the avatar
     # understand English rather than transcribing it against a Chinese model.
     #
-    # The whole block has to be sent, resource_id included. That id pins one credential in
-    # the Agora console, and a credential only serves the language it was created for:
-    # sending "en" while pointing at the Chinese credential leaves English unrecognised,
-    # and leaving the id out does not fall back to a matching one — it fails the same way.
-    # So there is one id per language, both hard-coded here.
+    # The whole block has to be sent: in pipeline mode a field given here replaces the
+    # agent's, so a partial block would drop the vendor or model. The language goes in
+    # both places because the console's own ASR params JSON carries it under params too.
     #
-    # Which also means these ids belong to the console this demo was built against. Anyone
-    # running it against their own agent has to replace them — see the README. Changing the
-    # ASR vendor or model in the console means changing it here too, and a mismatch is
-    # silent: Chinese speech comes back as "Yeah." and "Hello?", or as empty text with the
-    # timings intact, and nothing reports an error.
+    # Changing the ASR vendor or model in the console means changing it here too — see the
+    # README — and a mismatch is silent: Chinese speech comes back as "Yeah." and "Hello?",
+    # or as empty text with the timings intact, and nothing reports an error.
     asr_language = "en" if lang == "en" else "zh"
-    asr_resource = ASR_RESOURCE_EN if lang == "en" else ASR_RESOURCE_ZH
     properties["asr"] = {
         "vendor": ASR_VENDOR,
         "language": asr_language,
@@ -430,7 +430,6 @@ def start_agent(avatar_id: str = "", lang: str = "zh") -> AgoraSession:
         "params": {
             "language": asr_language,
             "model": ASR_MODEL,
-            "resource_id": asr_resource,
             "keyterm": "",
         },
     }
@@ -443,6 +442,8 @@ def start_agent(avatar_id: str = "", lang: str = "zh") -> AgoraSession:
     )
     payload = _json_or_none(response)
     if not response.ok:
+        # The terminal gets the whole thing: the client only sees the filtered message.
+        print(f"ConvoAI join failed: HTTP {response.status_code} {response.text[:500]}", file=sys.stderr)
         raise RuntimeError(_safe_upstream_message(payload, response.status_code))
 
     agent_id = payload.get("agent_id") if isinstance(payload, dict) else None

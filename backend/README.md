@@ -52,10 +52,22 @@ The **primary certificate** has to be enabled for the project under Projects
 before it has a value. The backend signs tokens with it on the fly, which is why
 you do not need the Customer ID / Secret pair.
 
-To get the **pipeline id**: create an agent under Agents, set its prompt and its
-ASR/LLM/TTS, hit **Publish**, then copy it from the **Code** panel on the right.
+To get the **pipeline id**: create an agent under Agents, set its prompt, LLM
+and TTS, hit **Publish**, then copy it from the **Code** panel on the right.
 The models, the voice and the persona all live in that agent — the backend only
 references it, so you do not need to sign up with each model provider.
+
+If starting a session fails with **`properties: tts.addon not found`**, the
+pipeline id does not resolve under this App ID: a made-up id, an id copied from
+an agent in a different project, and an agent that was never published all fail
+with exactly that message. Check that the agent lives in the project whose App
+ID you entered, that it has been published, and that the id is the pipeline id
+from the Code panel (not the agent's name or URL).
+
+Leave the agent's **ASR** at what a new agent comes with (Deepgram `nova-3`).
+The backend sends that exact setup with every session, so a fresh agent works
+as is — checked against a second Agora account with a newly created agent. If
+you do change the ASR, see the second warning below.
 
 ⚠️ **The sample rates have to match.** `AGORA_AVATAR_SAMPLE_RATE` (24000 by
 default) must equal the TTS output sample rate of that agent, which you can see
@@ -71,24 +83,26 @@ Supported rates: `8000` / `16000` / `22050` / `24000` / `32000` / `44100` /
 `48000`.
 
 ⚠️ **Speech recognition is configured in two places and both have to agree.**
-The backend sends an `asr` block naming a vendor, model and credential, chosen to
-match the UI language so that switching to English makes the avatar understand
-English. Those values are constants at the top of `agora.py`:
+The backend sends an `asr` block naming a vendor and model, with the language
+chosen to match the UI so that switching to English makes the avatar understand
+English. The vendor and model are constants at the top of `agora.py`:
 
 ```python
 ASR_VENDOR = "deepgram"
 ASR_MODEL = "nova-3"
-ASR_RESOURCE_ZH = "..."   # credential id for Chinese
-ASR_RESOURCE_EN = "..."   # credential id for English
 ```
 
-They belong to the console this demo was built against. Running it against your
-own agent means replacing them with yours: open the agent under Agents → Models,
-click the settings icon beside ASR, and the panel shows the vendor, the model and
-the credential id for the language selected. A credential only serves the
-language it was created for, so you need one id per language — pointing at the
-wrong one stops recognition working entirely, and leaving the id out does not
-fall back to a matching one.
+They are the defaults a newly created agent comes with, so if you never touched
+the ASR panel there is nothing to do here. Only when you have switched the
+vendor or the model in the console do they need changing: open the agent under
+Agents → Models, click the settings icon beside ASR, and the panel shows the
+vendor in the dropdown and the model in its **ASR params JSON**:
+
+![Where the ASR values are in the Agora console](../web/public/agora-asr-params-guide.jpg)
+
+The `resource_id` in that JSON is not needed: the join API ignores it (a
+made-up id recognised Chinese and English just the same), and the credential
+comes from the agent itself.
 
 A mismatch here is as quiet as the sample rate one: Chinese speech comes back
 transcribed as `"Yeah."` and `"Hello?"`, or as empty text with the timings

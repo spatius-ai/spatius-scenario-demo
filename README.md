@@ -48,7 +48,10 @@ app can switch it too):
 
 - `livekit` — the conversation runs on your machine; `server.py` starts the agent
   worker for you
-- `agora` — the conversation is hosted by Agora Conversational AI Engine
+- `agora` — the conversation is hosted by Agora Conversational AI Engine. Two
+  things in its console have to match the backend: the TTS sample rate, and the
+  ASR setup (leave it at the defaults of a new agent) — both are explained in
+  the backend README, and a mismatch fails silently
 
 Point each client at the backend address. On startup the backend prints the LAN
 address to use from a phone — a device cannot reach your computer's `localhost`.

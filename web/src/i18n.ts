@@ -59,6 +59,7 @@ interface Strings {
   agoraGuideAlt5: string
   agoraVoiceGuideAlt: string
   agoraAsrGuideAlt: string
+  agoraAsrParamsGuideAlt: string
   agoraAsrNote: string
   guideAlt: string
   livekitGuideAlt1: string
@@ -224,7 +225,8 @@ const zh: Strings = {
   agoraGuideAlt5: '在 Models → TTS 里核对采样率',
   agoraVoiceGuideAlt: '在 Agora 控制台的 Agents → Models 里换 TTS 与音色',
   agoraAsrGuideAlt: '声网控制台里的语音识别配置',
-  agoraAsrNote: '后台按界面语言下发语音识别配置（厂商、模型、凭据），默认对应上图这套 Deepgram nova-3。控制台里换了识别模型的话，backend/agora.py 顶部那几个常量也要跟着改——两边对不上时识别会失灵，且不会报错。',
+  agoraAsrParamsGuideAlt: '点 ASR 旁的设置图标，面板里的 Vendor 与 ASR params JSON 里的 model 就是要抄的值',
+  agoraAsrNote: '后台按界面语言下发语音识别配置（厂商、模型），就是新建 agent 自带的这套 Deepgram nova-3（左图）——没动过识别设置的话不用管。控制台里换了识别厂商或模型的话，点 ASR 旁的设置图标，把面板里的 Vendor 和 ASR params JSON 里的 model 抄到 backend/agora.py 顶部的两个常量（右图；resource_id 不用管）——两边对不上时识别会失灵，且不会报错。',
   guideAlt: '在 Spatius 控制台的 API Key 页面获取应用 ID 与 API Key',
   guideCaption: '点开图片跳转控制台。App ID 与 API Key 在左侧 Developer → API Key。',
   livekitGuideAlt1: 'LiveKit 控制台左下角进入 Settings',
@@ -405,7 +407,8 @@ const en: Strings = {
   agoraGuideAlt5: 'Check the sample rate under Models → TTS',
   agoraVoiceGuideAlt: 'Change the TTS model and voice under Agents → Models in the Agora console',
   agoraAsrGuideAlt: 'Speech recognition settings in the Agora console',
-  agoraAsrNote: 'The backend sends recognition settings (vendor, model, credential) to match the UI language, defaulting to the Deepgram nova-3 setup shown above. If you change the recognition model in the console, change the constants at the top of backend/agora.py to match — a mismatch stops recognition working, and nothing reports an error.',
+  agoraAsrParamsGuideAlt: 'Click the settings icon beside ASR: the Vendor dropdown and the model in the ASR params JSON are the values to copy',
+  agoraAsrNote: 'The backend sends recognition settings (vendor, model) to match the UI language — the Deepgram nova-3 setup a new agent comes with (left), so if you left ASR alone there is nothing to do. If you change the vendor or model in the console, click the settings icon beside ASR and copy the Vendor and the model from the ASR params JSON into the two constants at the top of backend/agora.py (right; the resource_id is not needed) — a mismatch stops recognition working, and nothing reports an error.',
   guideAlt: 'Where to find your App ID and API Key in the Spatius console',
   guideCaption: 'Opens the console. Find both under Developer → API Key in the sidebar.',
   livekitGuideAlt1: 'Open Settings from the LiveKit sidebar',

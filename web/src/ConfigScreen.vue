@@ -443,7 +443,12 @@ const AVATAR_OPTIONS = [
               nonsense or as nothing at all, with no error anywhere.
             -->
             <a class="guide" href="https://console.agora.io/" target="_blank" rel="noreferrer">
-              <img :src="asset('agora-asr-guide.jpg')" :alt="t.agoraAsrGuideAlt" />
+              <!-- Left: which ASR the backend expects. Right: where the values to copy
+                   into agora.py are, for anyone who changed it. -->
+              <div class="shots">
+                <img :src="asset('agora-asr-guide.jpg')" :alt="t.agoraAsrGuideAlt" />
+                <img :src="asset('agora-asr-params-guide.jpg')" :alt="t.agoraAsrParamsGuideAlt" />
+              </div>
               <span>{{ t.agoraAsrNote }}</span>
             </a>
 
