@@ -5,7 +5,7 @@ import Foundation
 
 /// The avatar RTC session: initialize the SDK → load the avatar → connect RTC.
 ///
-/// The difference from backend mode is that **the host does not have to feed data**:
+/// **The host does not have to feed data**:
 /// the agent encodes the animation into the video stream's SEI, the SDK parses it and
 /// drives rendering, and audio travels on the RTC audio track. So initializing the SDK
 /// in its default driving mode is enough.

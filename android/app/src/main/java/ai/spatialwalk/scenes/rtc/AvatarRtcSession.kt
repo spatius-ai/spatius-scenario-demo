@@ -39,11 +39,10 @@ private const val SPEAKING_VOLUME = 5
 /**
  * Avatar RTC session: initialize the SDK → load the avatar → connect RTC → publish the mic.
  *
- * The difference from backend mode is that **the host does not have to feed data**: the
- * agent encodes the animation into the video stream's SEI, the SDK parses it to drive
- * rendering, and audio travels on the RTC audio track. So the SDK can be initialized in
- * its default driving mode — no `DrivingServiceMode.BACKEND` and no keyframe transcoding
- * involved.
+ * **The host does not have to feed data**: the agent encodes the animation into the
+ * video stream's SEI, the SDK parses it to drive rendering, and audio travels on the RTC
+ * audio track. So the SDK can be initialized in its default driving mode — no keyframe
+ * transcoding involved.
  */
 class AvatarRtcSession(
     private val context: Context,
